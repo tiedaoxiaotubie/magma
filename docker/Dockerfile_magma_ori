@@ -1,16 +1,9 @@
-#FROM ubuntu:18.04
-FROM aflplusplus/aflplusplus
+FROM ubuntu:18.04
 
 # TODO remove sudo for user "magma" to avoid unwanted priv escalation from
 # other attack vectors.
-ARG DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Moscow
-
-RUN  sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
-RUN  apt-get clean
 
 RUN apt-get update && apt-get install -y sudo
-RUN apt-get install -y tzdata
 
 ## Magma directory hierarchy
 # magma_root is relative to the docker-build's working directory
@@ -59,8 +52,7 @@ RUN mkdir -p ${FUZZER} && chown magma:magma ${FUZZER}
 COPY --chown=magma:magma ${magma_root}/${fuzzer_path} ${FUZZER}/
 RUN ${FUZZER}/preinstall.sh
 USER magma:magma
-RUN ${FUZZER}/fetch.sh
-RUN ${FUZZER}/build.sh
+RUN ${FUZZER}/fetch.sh && ${FUZZER}/build.sh
 
 ARG target_name
 ARG target_path=targets/${target_name}
@@ -89,6 +81,6 @@ ENV CXXFLAGS ${BUILD_FLAGS}
 ENV LIBS -l:magma.o -lrt
 ENV LDFLAGS -L"${OUT}" -g
 
-#RUN ${FUZZER}/instrument.sh
+RUN ${FUZZER}/instrument.sh
 
 ENTRYPOINT "${MAGMA}/run.sh"
