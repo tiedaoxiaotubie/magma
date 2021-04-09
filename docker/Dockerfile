@@ -89,6 +89,6 @@ ENV CXXFLAGS ${BUILD_FLAGS}
 ENV LIBS -l:magma.o -lrt
 ENV LDFLAGS -L"${OUT}" -g
 
-#RUN ${FUZZER}/instrument.sh
+RUN ${FUZZER}/instrument.sh
 
 ENTRYPOINT "${MAGMA}/run.sh"

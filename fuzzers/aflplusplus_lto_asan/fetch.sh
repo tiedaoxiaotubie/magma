@@ -6,8 +6,8 @@ set -e
 # - env FUZZER: path to fuzzer work dir
 ##
 
-git clone --no-checkout https://github.com/AFLplusplus/AFLplusplus "$FUZZER/repo"
-git -C "$FUZZER/repo" checkout 068bef5eab942df0a133c92522f2ab81b28ac636
+#git clone --no-checkout https://github.com/AFLplusplus/AFLplusplus "$FUZZER/repo"
+#git -C "$FUZZER/repo" checkout 068bef5eab942df0a133c92522f2ab81b28ac636
 
 # Fix: CMake-based build systems fail with duplicate (of main) or undefined references (of LLVMFuzzerTestOneInput)
 sed -i '{s/^int main/__attribute__((weak)) &/}' $FUZZER/repo/utils/aflpp_driver/aflpp_driver.c
@@ -24,6 +24,15 @@ EOF
 patch -p1 -d "$FUZZER/repo" << EOF
 --- a/utils/aflpp_driver/aflpp_driver.c
 +++ b/utils/aflpp_driver/aflpp_driver.c
+@@ -53,7 +53,7 @@
+   #include "hash.h"
+ #endif
+ 
+-int                   __afl_sharedmem_fuzzing = 1;
++int                   __afl_sharedmem_fuzzing = 0;
+ extern unsigned int * __afl_fuzz_len;
+ extern unsigned char *__afl_fuzz_ptr;
+ 
 @@ -111,7 +111,8 @@ extern unsigned int * __afl_fuzz_len;
  __attribute__((weak)) int LLVMFuzzerInitialize(int *argc, char ***argv);
  

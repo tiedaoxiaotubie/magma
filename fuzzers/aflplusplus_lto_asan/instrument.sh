@@ -14,14 +14,14 @@ export CC="$FUZZER/repo/afl-clang-lto"
 export CXX="$FUZZER/repo/afl-clang-lto++"
 export AFL_USE_ASAN=1
 LLVM_PATH=/usr/lib/llvm-12/bin
-#export AS="${LLVM_PATH}/llvm-as"
-#export RANLIB="${LLVM_PATH}/llvm-ranlib"
-#export AR="${LLVM_PATH}/llvm-ar"
+export AS="${LLVM_PATH}/llvm-as"
+export RANLIB="${LLVM_PATH}/llvm-ranlib"
+export AR="${LLVM_PATH}/llvm-ar"
 export LD="${LLVM_PATH}/ld.lld"
 export NM="${LLVM_PATH}/llvm-nm"
-export RANLIB='llvm-ranlib-12'
-export AR='llvm-ar-12'
-export AS='llvm-as-12'
+#export RANLIB='llvm-ranlib-12'
+#export AR='llvm-ar-12'
+#export AS='llvm-as-12'
 
 export LIBS="$LIBS -lstdc++ $FUZZER/repo/utils/aflpp_driver/libAFLDriver.a"
 

@@ -1,0 +1,10 @@
+--- repo/src/afl-showmap.c	2021-03-14 17:32:43.642753228 +0800
++++ repo/src/afl-showmap.c_bck	2021-03-14 18:45:25.951982903 +0800
+@@ -1083,6 +1083,7 @@ int main(int argc, char **argv_orig, cha
+     if (arg_offset && use_argv[arg_offset] != stdin_file) {
+ 
+       use_argv[arg_offset] = strdup(stdin_file);
++      fsrv->out_file = use_argv[arg_offset];
+ 
+     }
+ 
